@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { fontVariables } from "@/lib/fonts";
 import { Providers } from "@/components/layout/Providers";
 import { profile } from "@/content/profile";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
           </a>
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
