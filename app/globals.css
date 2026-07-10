@@ -303,11 +303,19 @@
     text-align: center;
   }
 
+  .splash-mark {
+    width: auto;
+    height: clamp(2.75rem, 8vw, 3.75rem);
+    margin-bottom: 1.4rem;
+    color: var(--color-ink);
+    animation: splash-rise 0.7s var(--ease-soft) both;
+  }
+
   .splash-name {
     font-size: clamp(2rem, 7vw, 3.25rem);
     line-height: 1.05;
     color: var(--color-ink);
-    animation: splash-rise 0.7s var(--ease-soft) both;
+    animation: splash-rise 0.7s var(--ease-soft) 0.12s both;
   }
 
   .splash-rule {
@@ -326,13 +334,6 @@
     text-transform: uppercase;
     color: var(--color-sage);
     animation: splash-rise 0.7s var(--ease-soft) 0.24s both;
-  }
-
-  .splash-tagline {
-    max-width: 100ch;
-    margin-top: 0.9rem;
-    color: var(--color-dim);
-    animation: splash-rise 0.7s var(--ease-soft) 0.42s both;
   }
 
   @keyframes splash-retire {

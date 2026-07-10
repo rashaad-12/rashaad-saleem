@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { profile } from "@/content/profile";
 import { SECTIONS } from "@/content/sections";
+import { LogoMark } from "@/components/logo";
 import { ThemeToggle } from "./ThemeToggle";
 
 const LIFT_AT = 24;
@@ -43,7 +44,7 @@ export function Header() {
             href="/"
             className="mr-auto flex items-center gap-2.5 text-[0.9375rem] font-medium tracking-[0.005em]"
           >
-            <span aria-hidden="true" className="size-2 rounded-full bg-sage" />
+            <LogoMark className="h-[1.125rem] w-auto" />
             {profile.name}
           </a>
 
