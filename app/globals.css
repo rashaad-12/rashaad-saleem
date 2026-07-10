@@ -284,6 +284,90 @@
   [data-theme="dark"] .theme-icon {
     transform: rotate(180deg);
   }
+
+  .splash {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    background: var(--color-ground);
+    animation: splash-retire 1.65s var(--ease-soft) forwards;
+  }
+
+  .splash-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .splash-name {
+    font-size: clamp(2rem, 7vw, 3.25rem);
+    line-height: 1.05;
+    color: var(--color-ink);
+    animation: splash-rise 0.7s var(--ease-soft) both;
+  }
+
+  .splash-rule {
+    width: 56px;
+    height: 1px;
+    margin-block: 1.6rem;
+    background: var(--color-sage);
+    transform-origin: center;
+    animation: splash-draw 0.6s var(--ease-soft) 0.32s both;
+  }
+
+  .splash-role {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+    animation: splash-rise 0.7s var(--ease-soft) 0.24s both;
+  }
+
+  .splash-tagline {
+    max-width: 100ch;
+    margin-top: 0.9rem;
+    color: var(--color-dim);
+    animation: splash-rise 0.7s var(--ease-soft) 0.42s both;
+  }
+
+  @keyframes splash-retire {
+    0%,
+    64% {
+      opacity: 1;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @keyframes splash-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes splash-draw {
+    from {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    to {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
 }
 
 @layer utilities {

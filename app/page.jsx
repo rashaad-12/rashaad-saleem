@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Thread } from "@/components/layout/Thread";
+import { Splash } from "@/components/layout/Splash";
 import { Hero } from "@/components/sections/Hero";
 import { Craft } from "@/components/sections/Craft";
 import { Experience } from "@/components/sections/Experience";
@@ -17,6 +18,7 @@ export const dynamic = "force-static";
 export default function HomePage() {
   return (
     <>
+      <Splash />
       <Header />
       <Thread />
 
