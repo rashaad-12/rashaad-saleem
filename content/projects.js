@@ -1,11 +1,11 @@
 export const projects = [
   {
-    slug: "fawad-saleem-architects",
-    name: "Fawad Saleem Architects",
+    slug: "architecture-studio-website",
+    name: "Architecture Studio Website",
     kind: "Client work",
     badge: "Live",
     description:
-      "A portfolio site for an architecture practice, built and deployed on Next.js and live at its domain. It currently stands in as a placeholder while the practice's project catalogue is compiled: the filterable gallery, a validated contact form that delivers over SMTP and a CMS-ready content layer are all in place, awaiting the real client data. Server-rendered throughout, with complete metadata and Open Graph tags, optimised imagery and both light and dark themes.",
+      "A production-ready website for an architecture practice, built with Next.js and live at its domain. While the studio's project catalogue is still being prepared, the application already includes a filterable gallery, a validated SMTP-powered contact form and a CMS-ready content structure awaiting client content. The site is fully server-rendered with SEO metadata, Open Graph support, optimized images and light/dark themes.",
     stack: [
       "Next.js",
       "React 19",
@@ -40,8 +40,8 @@ export const projects = [
     sourceUrl: "https://github.com/rashaad-12/restaurant-os",
   },
   {
-    slug: "workflow-builder",
-    name: "Workflow Builder",
+    slug: "orchestrator",
+    name: "Orchestrator",
     kind: "Workflow engine and visual editor",
     badge: null,
     description:
