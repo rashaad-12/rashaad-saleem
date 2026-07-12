@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from "react";
 
 const WORKERS = 4;
 const TASK_MS = 800;
+const TASK_MS_FIXED = 400;
 const DISPATCH_MS = 24;
 const ARRIVAL_PER_SEC = 8;
 const SERVICE_PER_SEC = WORKERS / (TASK_MS / 1000);
+const SERVICE_FIXED = WORKERS / (TASK_MS_FIXED / 1000);
 const TIMEOUT_MS = 3000;
 const SIM_SPEED = 16;
 const MAX_PENDING = 400;
@@ -14,19 +16,19 @@ const MAX_PENDING = 400;
 const VERDICTS = {
   "caller-runs:500": {
     tone: "fault",
-    text: "What production actually ran. Give it a moment: while the queue has room nothing looks wrong at all. Then it fills, the request thread starts executing batches, and the lag settles a hundred seconds deep. Throughput never drops. That is exactly why nobody suspected the pool.",
+    text: "What production actually ran. Give it a moment: while the queue has room nothing looks wrong at all. Then it fills, the request thread starts executing batches and the lag settles a hundred seconds deep. Throughput never drops. That is exactly why nobody suspected the pool.",
   },
   "caller-runs:30": {
     tone: "fault",
-    text: "The same bug with the disguise off. Within seconds the request thread is spending almost all its time running batches. Look at the accept rate: it is fine. CallerRuns raises throughput, because the thread that should be answering clients is doing real work instead. That is the seduction, and that is the outage that follows it.",
+    text: "The same bug with the disguise off. Within seconds the request thread is spending almost all its time running batches. Look at the accept rate: it is fine. CallerRuns raises throughput, because the thread that should be answering clients is doing real work instead. That is the seduction and that is the outage that follows it.",
   },
   "block:500": {
     tone: "ember",
-    text: "Nothing is stolen now. The request thread only ever dispatches. Nothing is on time either. Five hundred slots do not absorb load, they hide it: the backlog grows where no alert is pointed, and by the time anyone feels it you are minutes behind.",
+    text: "Nothing is stolen now. The request thread only ever dispatches. Nothing is on time either. Five hundred slots do not absorb load, they hide it: the backlog grows where no alert is pointed and by the time anyone feels it you are minutes behind.",
   },
   "block:30": {
     tone: "good",
-    text: "Nothing stolen, lag in single-digit seconds, and a shed rate that states plainly what is true: eight requests a second is more than four workers can serve. The load is still too high. The difference is that the system now says so, in milliseconds rather than minutes.",
+    text: "The fix, whole. Request-thread-stolen sits at zero because the pool never hands a batch back to the caller and shed sits at zero too: once each task stopped firing N+1 queries, four workers clear the incoming load with room to spare. Nothing queues for long, nothing times out. The shallow queue is still there, ready to signal the moment load ever outruns the workers again.",
   },
 };
 
@@ -73,6 +75,10 @@ export function QueueLab() {
   useEffect(() => {
     if (reduce) return;
 
+    const fixed = policy === "block" && capacity === 30;
+    const taskMs = fixed ? TASK_MS_FIXED : TASK_MS;
+    const servicePerSec = fixed ? SERVICE_FIXED : SERVICE_PER_SEC;
+
     let raf = 0;
     let last = performance.now();
     let visible = true;
@@ -96,19 +102,37 @@ export function QueueLab() {
       }
 
       for (let i = 0; i < workers.length; i++) {
-        if (workers[i] > 0) workers[i] = Math.max(0, workers[i] - dtMs);
-        if (workers[i] === 0 && queue.length) {
+        let wb = dtMs;
+        while (wb > 0) {
+          if (workers[i] > 0) {
+            const spend = Math.min(workers[i], wb);
+            workers[i] -= spend;
+            wb -= spend;
+            if (workers[i] > 0) break;
+          }
+          if (!queue.length) break;
           queue.shift();
-          workers[i] = TASK_MS;
+          workers[i] = taskMs;
         }
       }
 
-      if (rt.remaining > 0) {
-        rt.remaining = Math.max(0, rt.remaining - dtMs);
-        if (rt.remaining === 0) rt.mode = "idle";
-      }
+      let budget = dtMs;
+      let stolenThisTick = 0;
+      while (budget > 0) {
+        if (rt.remaining > 0) {
+          const spend = Math.min(rt.remaining, budget);
+          if (rt.mode === "running-batch") stolenThisTick += spend;
+          rt.remaining -= spend;
+          budget -= spend;
+          if (rt.remaining > 0) break;
+          rt.mode = "idle";
+        }
 
-      if (rt.remaining === 0 && pending.length) {
+        if (!pending.length) {
+          rt.mode = "idle";
+          break;
+        }
+
         const { capacity: cap, policy: pol } = cfg.current;
         if (queue.length < cap) {
           pending.shift();
@@ -119,13 +143,12 @@ export function QueueLab() {
         } else if (pol === "caller-runs") {
           pending.shift();
           acceptTimes.push(now);
-          rt.remaining = TASK_MS;
+          rt.remaining = taskMs;
           rt.mode = "running-batch";
         } else {
           rt.mode = "blocked";
+          break;
         }
-      } else if (rt.remaining === 0 && !pending.length) {
-        rt.mode = "idle";
       }
 
       for (let i = pending.length - 1; i >= 0; i--) {
@@ -137,7 +160,7 @@ export function QueueLab() {
 
       const decay = Math.exp(-dtMs / WINDOW_MS);
       totalMs = totalMs * decay + dtMs;
-      stolenMs = stolenMs * decay + (rt.mode === "running-batch" ? dtMs : 0);
+      stolenMs = stolenMs * decay + stolenThisTick;
 
       while (acceptTimes.length && now - acceptTimes[0] > WINDOW_MS)
         acceptTimes.shift();
@@ -163,7 +186,7 @@ export function QueueLab() {
           stolen: totalMs > 0 ? (stolenMs / totalMs) * 100 : 0,
           shed:
             admitted + dropped > 0 ? (dropped / (admitted + dropped)) * 100 : 0,
-          lag: queue.length / SERVICE_PER_SEC,
+          lag: queue.length / servicePerSec,
           queue: queue.length,
           rt: rt.mode,
           workers: workers.filter((w) => w > 0).length,
@@ -195,6 +218,7 @@ export function QueueLab() {
 
   const verdict = VERDICTS[`${policy}:${capacity}`];
   const fill = Math.min(100, (stats.queue / capacity) * 100);
+  const fixed = policy === "block" && capacity === 30;
 
   return (
     <div id="queue-lab" className="card mt-9 overflow-hidden">
@@ -217,15 +241,17 @@ export function QueueLab() {
             [30, "30"],
           ]}
         />
-        <p className="ml-auto text-[0.75rem] leading-relaxed text-faint">
-          8 requests/s arriving · 4 workers serving 5/s
+        <p className="w-full text-[0.75rem] leading-relaxed text-faint sm:ml-auto sm:w-auto">
+          8 requests/s arriving · 4 workers serving {fixed ? "10" : "5"}/s
           <br />
-          Permanently overloaded, on purpose.
+          {fixed
+            ? "Load cleared: cheaper tasks, workers keep up."
+            : "Permanently overloaded, on purpose."}
         </p>
       </div>
 
       <div className="px-6 py-7 sm:px-8">
-        <div className="flex items-stretch gap-3 sm:gap-5">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-stretch sm:gap-5">
           <Stage label="request thread">
             <span
               className={`readout block truncate text-[0.75rem] transition-colors duration-200 ${

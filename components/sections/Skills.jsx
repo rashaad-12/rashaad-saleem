@@ -6,9 +6,9 @@ export function Skills() {
   return (
     <section id="skills" className="scroll-mt-28 py-24">
       <SectionHead
-        eyebrow="Qualified, not rated"
+        eyebrow="Toolset"
         title="Skills"
-        note="Ordered by how much of the day each one takes. Every entry says how it was earned."
+        note="The tools I work in day to day and where I earned each one."
       />
 
       <div className="flex flex-col gap-12">

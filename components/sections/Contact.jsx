@@ -38,7 +38,7 @@ const LINKS = [
   },
   {
     icon: "resume",
-    label: "Résumé",
+    label: "Resume",
     value: "PDF, one page",
     href: profile.resumePdf,
     external: false,
@@ -57,9 +57,9 @@ export function Contact() {
         </h2>
 
         <p className="measure leading-[1.7] text-dim">
-          I am open to SDE II roles. Based in Bangalore, ready to relocate, and
-          available for remote, hybrid or onsite work. Email is the fastest way
-          to reach me.
+          I am open to Software Engineer roles. Based in Bangalore, ready to
+          relocate and available for remote, hybrid or onsite work. Email is the
+          fastest way to reach me.
         </p>
 
         <a

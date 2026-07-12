@@ -7,7 +7,7 @@ import { profile } from "@/content/profile";
 const SITE_URL = "https://rashaadsaleem.com";
 const TITLE = `${profile.name} · Software Engineer`;
 const DESCRIPTION =
-  "Software engineer, three years on an enterprise logistics platform. Java and Spring services, React screens, and the refactors in between. Bangalore, ready to relocate. Open to SDE II roles.";
+  "Software engineer, three years on an enterprise logistics platform. Java and Spring services, React screens and the refactors in between. Bangalore, ready to relocate. Open to Software Engineer roles.";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),

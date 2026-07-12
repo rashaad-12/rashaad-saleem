@@ -15,7 +15,7 @@ export function Recommendations() {
       <SectionHead
         eyebrow="References"
         title="What the people I worked with say"
-        note="Two colleagues, writing independently on LinkedIn. Both emphasised ownership."
+        note="From colleagues at WiseTech Global, published on LinkedIn."
       />
 
       <div className="grid gap-6 md:grid-cols-2">

@@ -5,11 +5,7 @@ import { Reveal } from "../motion";
 export function Projects() {
   return (
     <section id="projects" className="scroll-mt-28 py-24">
-      <SectionHead
-        eyebrow="Things you can click"
-        title="Projects"
-        note="Reachable ones first."
-      />
+      <SectionHead eyebrow="Selected work" title="Projects" />
 
       <div className="flex flex-col gap-7">
         {projects.map((project, i) => (

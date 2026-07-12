@@ -66,7 +66,7 @@ export function Header() {
           <ThemeToggle />
 
           <a className="btn btn-small" href={profile.resumePdf} download>
-            Résumé
+            Resume
             <span aria-hidden="true">↓</span>
           </a>
         </div>

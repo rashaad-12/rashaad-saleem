@@ -8,8 +8,8 @@ export const profile = {
   lede: "Three years on an enterprise logistics platform. Java services on one side, React on the other, refactors in between. I design it, ship it, then stay on the pager for it.",
 
   about: [
-    "Most of the problems worth solving start the same way: something is wrong, nobody is certain why, and the cause sits somewhere between four services and a thread pool. I find it, fix the class of bug rather than the instance, and leave behind the instrumentation that lets the next engineer diagnose it without me.",
-    "The rest of the work is ordinary craft. Charge workflows and permission-aware alerts in Spring. A nine-hundred-line query builder broken into modules a new hire can read. Legacy React class components rebuilt as hooks. Whole screens delivered front to back across seven applications. Scale is a constraint I work within, not the thing I am selling.",
+    "Most of the problems worth solving start the same way: something is wrong, nobody is certain why and the cause sits somewhere between four services and a thread pool. I find it, fix the class of bug rather than the instance and leave behind the instrumentation that lets the next engineer diagnose it without me.",
+    "The rest of the work is ordinary craft. Charge workflows and permission-aware alerts in Spring. A nine-hundred-line query builder broken into modules a new hire can read. Legacy React class components rebuilt as hooks. Whole screens delivered front to back across seven modules of the platform. Scale is a constraint I work within, not the thing I am selling.",
   ],
 
   portrait: {
@@ -20,7 +20,7 @@ export const profile = {
 
   status: [
     "Open to work",
-    "SDE II",
+    "Software Engineer",
     "Bangalore, India",
     "Ready to relocate",
     "Remote, hybrid or onsite",
@@ -29,7 +29,7 @@ export const profile = {
   pipeline: {
     stages: ["collect", "dispatch", "enrich", "index"],
     caption:
-      "A model of the event flow, not a live feed. The numbers are measured from it.",
+      "A model of the sync pipeline. The figures come from measured runs.",
   },
 
   email: "rashaadsaleem@gmail.com",
@@ -44,7 +44,7 @@ export const profile = {
     school: "College of Engineering Guindy",
     university: "Anna University",
     when: "2019 – 2023",
-    note: "I trained to design things that get made, and spent two years doing it at DRDO and a robotics startup. Alongside that I ran logistics for my college festival. Today I build the software that moves freight. Distributed systems were not on the syllabus; I learned them on production systems, which is the reason they stayed learned.",
+    note: "I trained to design things that get made and spent two years doing it at DRDO and a robotics startup. Alongside that I ran logistics for my college festival. Today I build the software that moves freight. Distributed systems were not on the syllabus; I learned them on production systems, which is the reason they stayed learned.",
   },
 
   certifications: [

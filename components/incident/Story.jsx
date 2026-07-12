@@ -114,7 +114,7 @@ export function Story() {
                 <Label>Try it</Label>
                 <p className="mt-4 text-[0.9375rem] leading-[1.7] text-dim">
                   Four workers, more requests than they can serve. Change the
-                  policy and the queue depth, and watch which lie each
+                  policy and the queue depth and watch which lie each
                   combination tells you.
                 </p>
                 <QueueLab />

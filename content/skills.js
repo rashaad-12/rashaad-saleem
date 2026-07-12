@@ -31,16 +31,15 @@ export const skills = [
   {
     title: "Data & storage",
     items: [
-      ["MySQL", "system of record, 3 yrs"],
-      ["SQL", "query analysis and optimisation"],
+      ["MySQL", "query analysis and optimisation, 3 yrs"],
       ["MongoDB", "RestaurantOS, side projects"],
     ],
   },
   {
     title: "Frontend",
     items: [
-      ["Redux · Redux Saga", "shared state across 7 apps"],
-      ["Class → hooks refactors", "3 legacy screens, ~4k lines"],
+      ["Redux", "shared state across 7 apps"],
+      ["Class -> hooks refactors", "3 legacy screens"],
       ["JavaScript", "daily"],
       ["Next.js", "two production sites"],
     ],
@@ -51,7 +50,7 @@ export const skills = [
       ["JUnit 5 · Mockito", "coverage raised to 58%"],
       ["Jest · Playwright", "UI automation in CI"],
       ["Docker · GCP", "local stacks, hosted Elasticsearch"],
-      ["Python", "call-graph tooling and analysis"],
+      ["Python", "tooling and analysis"],
       ["Kibana · Postman", "production diagnostics, daily"],
     ],
   },
