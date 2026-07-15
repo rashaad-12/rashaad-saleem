@@ -37,7 +37,7 @@ export const profile = {
   phoneHref: "tel:+919360896080",
   linkedin: "https://linkedin.com/in/rashaad-saleem",
   github: "https://github.com/rashaad-12",
-  resumePdf: "/Rashaad_Saleem_SDE_II.pdf",
+  resumePdf: "/Rashaad_Saleem.pdf",
 
   education: {
     degree: "B.E. Manufacturing Engineering",
